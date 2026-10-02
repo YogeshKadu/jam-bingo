@@ -102,6 +102,17 @@
             </div>
         </div>
     </section>
+    <dialog id="help-dialog" data-modal class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-5 bg-neutral-900 rounded-lg border border-gray-500">
+        <div class="text-white px-5">
+            <div class="flex flex-col">
+                <p>1. Play as regular bingo game, for more info <a class="text-blue-400" target="_blank" href="https://www.wikihow.com/Play-Bingo">click here</a>.</p>
+                <p>2. If you are playing in complex mode</p>
+                <p class="pl-5">- Both board will rotate 1 tile clockwise <b>after every 6 moves !</b></p>
+                <img src="./assets/help/guide1.png" alt="guide image" class="max-w-md pl-5 mt-3">
+            </div>
+            <button data-close-modal id="data-close-modal" class="text-white bg-neutral-700 px-3 py-2 mt-5 rounded-md cursor-pointer">Close</button>
+        </div>
+    </dialog>
     <script type="module" src="./libs/initialize.js"></script>
     <script type="module" src="./script.js"></script>
 </body>

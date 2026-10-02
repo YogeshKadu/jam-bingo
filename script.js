@@ -29,7 +29,7 @@ window.startGameEvent.subscribe("start-initialize_players", () => {
 window.updateBoardEvent.subscribe("update-player&enemy-board", () => {
     const _counter = window.counter;
     const easyGame = window.settings.complexity == "easy";
-    window.counter = _counter > 0 ? _counter - 1 : 6;
+    window.counter = _counter > 0 ? _counter - 1 : 5;
     let _playerBoardArray = window?.player?.playerBoardArray || [];// RotateBoard(window.playerBoardArray, 2);
     let _enemyBoardArray = window?.enemy?.enemyBoardArray|| [];// RotateBoard(window.enemyBoardArray, 2);
     if(!easyGame && _counter == 0) {

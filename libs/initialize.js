@@ -10,8 +10,11 @@ window.resumeGameEvent = new GameEvent();
 
 
 const inGameHomeButton = document.getElementById("home");
+const inGameHelpButton = document.getElementById("help");
 const inGameMuteButton = document.getElementById("mute");
 const inGameRestartButton = document.getElementById("restart");
+const inGameHelpDialogElement = document.getElementById("help-dialog");
+const inGameCloseModalButton = document.getElementById("data-close-modal");
 
 window.settings = { ...defaultSettings.settings };
 window.player = { ...defaultSettings.player };
@@ -41,6 +44,12 @@ const HandleAudioToggle = () => {
     }
 
 }
+const HandleOpenHelpDialog = () => {
+    inGameHelpDialogElement.showModal();
+}
+const HandleCloseHelpDialog = () => {
+    inGameHelpDialogElement.close();
+}
 //#endregion
 
 if(inGameRestartButton) 
@@ -49,5 +58,8 @@ if(inGameRestartButton)
 if(inGameMuteButton)
     inGameMuteButton.addEventListener("click", () => HandleAudioToggle());
 
-
+if(inGameHelpButton)
+    inGameHelpButton.addEventListener("click", () => HandleOpenHelpDialog());
+if(inGameCloseModalButton)
+    inGameCloseModalButton.addEventListener("click", () => HandleCloseHelpDialog());
 
