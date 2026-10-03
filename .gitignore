@@ -1,0 +1,43 @@
+
+# Electron build/output
+dist/
+out/
+release/
+build/
+electron/
+
+# Electron Forge
+out/
+*.zip
+
+# Electron Builder
+dist/
+*.exe
+*.msi
+*.dmg
+*.app
+*.deb
+*.rpm
+*.snap
+
+# Electron runtime/cache
+*.log
+logs/
+.cache/
+electron-cache/
+
+# Node
+node_modules/
+
+# Environment/config
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
