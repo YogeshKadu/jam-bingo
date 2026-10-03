@@ -7,6 +7,9 @@ import { renderCounter, renderEnemyBoard, renderPlayerBoard } from "./libs/utils
 const counterBannerElement = document.getElementById("counter-banner");
 const counterElement = document.getElementById("counter");
 
+counterElement.parentElement.onclick = () => {
+    audioController.play("TOUCH");
+}
 // player things
 const playerBoardElement = document.getElementById("player-board");
 const playerScoreElement = document.getElementById("player-score");

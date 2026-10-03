@@ -4,7 +4,7 @@ export const defaultSettings = {
             sfx: true
         },
         complexity: "easy", // easy | complex
-        playWith: "bot" //bot | player
+        playWith: "bot" //bot | "player"
     },
     player: {
         playerBoardArray: [],

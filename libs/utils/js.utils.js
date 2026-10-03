@@ -1,5 +1,6 @@
 // calculations affected functions
 
+import { SOUNDS } from "../Entity/sounds.js";
 import { CalculateScore } from "../utils.js";
 
 export function UpdateScore() {
@@ -20,16 +21,19 @@ export function UpdateScore() {
         window.game.isGameDraw = true;
         window.game.isGameOver = true;
         console.log("Game is draw");
+        overGameEvent.trigger();
     } else if (playerScore >= 100) {
         window.game.winner = "player";
         window.game.isGameOver = true;
         window.game.isGameDraw = false;
         console.log("Player won");
+        overGameEvent.trigger();
     } else if (enemyScore >= 100) {
         window.game.winner = "enemy";
         window.game.isGameOver = true;
         window.game.isGameDraw = false;
         console.log("Enemy won");
+        overGameEvent.trigger();
     }
 }
 
@@ -50,17 +54,28 @@ function UpdateHighlightedOf(value, isPlayerChoice = false) {
 }
 
 export function HandleClick(event) {
-    const { playWith } = window.settings;
     const value = Number(event.currentTarget.dataset.value);
+    const item = player.playerBoardArray.find(item=>item.value == value);
+    if(item.highlighted) {
+        audioController.play("WRONG_CLICK");
+        return;
+    } else {
+        audioController.play("CLICK");
+    }
+    const { playWith } = window.settings;
     UpdateHighlightedOf(value, true);
     // check if player or enemy win !
-    if(playWith === "bot" && window.player.score.amount < 100) {
-        setTimeout(HandleEnemySelection, 1500);
+    if(playWith === "bot"){
+        UpdateScore();
+        if(!window.game.isGameOver) {
+            setTimeout(HandleEnemySelection, 1500);
+        }
     }
     window.updateBoardEvent.trigger();
 }
 
 export function HandleEnemySelection(event) {
+    audioController.play("CLICK");
     const { playWith } = window.settings;
     let value = 100;
     if(playWith == "bot") {

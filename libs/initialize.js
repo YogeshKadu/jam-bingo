@@ -1,4 +1,6 @@
+import { AudioController } from "./Entity/AudioController.js";
 import GameEvent from "./Entity/GameEvent.js";
+import { SOUNDS } from "./Entity/sounds.js";
 import { defaultSettings } from "./utils/settings.js";
 
 window.resetGameEvent = new GameEvent();
@@ -6,16 +8,21 @@ window.startGameEvent = new GameEvent();
 window.updateBoardEvent = new GameEvent();
 window.pauseGameEvent = new GameEvent();
 window.resumeGameEvent = new GameEvent();
-// window.resumeGameEvent = new GameEvent();
+window.overGameEvent = new GameEvent();
 
 
 const inGameHomeButton = document.getElementById("home");
-const inGameHelpButton = document.getElementById("help");
 const inGameMuteButton = document.getElementById("mute");
 const inGameRestartButton = document.getElementById("restart");
+const inGameHelpButton = document.getElementById("help");
 const inGameHelpDialogElement = document.getElementById("help-dialog");
 const inGameCloseModalButton = document.getElementById("data-close-modal");
 const inGameEnemyName = document.getElementById("playerName");
+const inGameOverModal = document.getElementById("game-over");
+const cancelGameOverModalButton = document.getElementById("over-cancel");
+const replayGameOverButton = document.getElementById("over-retry");
+const homeGameOverButton = document.getElementById("over-home");
+
 // start buttons
 const playBotButton = document.getElementById("play-bot");
 const playEnemyButton = document.getElementById("play-enemy");
@@ -25,6 +32,8 @@ const complexGameButton = document.getElementById("complex-game");
 const mainSection = document.getElementById("main-menu");
 const gameBoardSection =document.getElementById("game-board");
 
+window.audioController = new AudioController();
+
 const InitializeSettings = () => {
     window.settings = { ...JSON.parse(JSON.stringify(defaultSettings.settings))};
     window.player = { ...JSON.parse(JSON.stringify(defaultSettings.player))};
@@ -33,7 +42,36 @@ const InitializeSettings = () => {
 }
 InitializeSettings();
 
-
+Object.entries(SOUNDS).forEach(([name, src]) => {
+  window.audioController.load(name, src);
+});
+//#region custom Events
+window.startGameEvent.subscribe("start-ui", () => {
+    inGameOverModal.close();
+    audioController.stopAll();
+})
+window.overGameEvent.subscribe("end-ui-and-settings",() => {
+    const banner = inGameOverModal.querySelector("h1");
+    const { playWith } = window.settings;
+    const { winner, isGameDraw } = window.game;
+    if(isGameDraw) {
+        banner.innerHTML = "ITS A DRAW!";
+    } else {
+        if(winner != "player") {
+            if(playWith == "bot") 
+                banner.innerHTML = "BOT WINS!";
+            else
+                banner.innerHTML = "ENEMY WINS!";
+        } else 
+            banner.innerHTML = "PLAYER WINS!";
+    }
+    setTimeout(()=> {
+        const audioKey = winner != "player" && playWith == "bot" ? "LOSE" : "WIN";
+        audioController.play(audioKey);
+        inGameOverModal?.showModal();
+    },1000)
+});
+//#endregion
 
 //#region init functions
 const HandleGameStart = () => {
@@ -56,6 +94,7 @@ const HandleAudioToggle = () => {
         icons[0].classList.remove('hidden');
         icons[1].classList.add('hidden');
     }
+    audioController.setMuteState(sfx);
 }
 const HandleOpenHelpDialog = () => {
     inGameHelpDialogElement.showModal();
@@ -96,8 +135,16 @@ const HandlePlayComplexGame = () => {
     complexGameButton.children[0].classList.remove("border-2");
     complexGameButton.children[0].classList.add("bg-white");
 }
+const HandleCloseGameOverModal = () => {
+    inGameOverModal?.close();
+}
+const HandleReplayGame = () => {
+    const { playWith } = window.settings;
+    HandlePlay(playWith);
+}
 //#endregion
 
+//#region Event Listeners
 if(inGameRestartButton) 
     inGameRestartButton.addEventListener("click", () => HandleGameStart());
 if(inGameMuteButton)
@@ -117,3 +164,12 @@ if(easyGameButton)
     easyGameButton.addEventListener("click", () => HandlePlayEasyGame());
 if(complexGameButton)
     complexGameButton.addEventListener("click", () => HandlePlayComplexGame());
+
+if(cancelGameOverModalButton)
+    cancelGameOverModalButton.addEventListener("click", () => HandleCloseGameOverModal());
+if(replayGameOverButton)
+    replayGameOverButton.addEventListener("click", () => HandleReplayGame());
+if(homeGameOverButton)
+    homeGameOverButton.addEventListener("click", () => { HandleCloseGameOverModal(), BackToHome()});
+
+//#endregion
