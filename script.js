@@ -1,6 +1,7 @@
 // Global variables and events;
 
 import { CalculateScore, GetRandomBoard, RotateBoard } from "./libs/utils.js";
+import { UpdateScore } from "./libs/utils/js.utils.js";
 import { renderCounter, renderEnemyBoard, renderPlayerBoard } from "./libs/utils/ui.utils.js";
 
 const counterBannerElement = document.getElementById("counter-banner");
@@ -20,8 +21,11 @@ window.startGameEvent.subscribe("start-initialize_players", () => {
   window.player.playerBoardArray = GetRandomBoard(25);
   window.enemy.enemyBoardArray = GetRandomBoard(25, true);
   window.counter = 6; // expected count + 1 i.e. count + initial render;
+  console.log("Complexity - ", window.settings.complexity);
   if(window.settings.complexity == "easy") {
-    counterBannerElement.style.display="none";
+    counterBannerElement.classList.add("hidden");
+} else {
+    counterBannerElement.classList.remove("hidden");
   }
   window.updateBoardEvent.trigger();
 });
@@ -36,10 +40,10 @@ window.updateBoardEvent.subscribe("update-player&enemy-board", () => {
         _playerBoardArray = RotateBoard(_playerBoardArray, 2);
         _enemyBoardArray = RotateBoard(_enemyBoardArray, 2);
     }
-    // Player
-    playerBoardElement.innerHTML = "";
-    renderPlayerBoard(playerBoardElement, _playerBoardArray);
-    // calculate player score
+    window.enemy.enemyBoardArray = _enemyBoardArray;
+    window.player.playerBoardArray = _playerBoardArray;
+    // Calculate score
+    UpdateScore();
     const playerscore = window?.player?.score?.amount || 0;
     const playerChilds = window?.player?.score?.count || 0;
     playerScoreElement.children[0].classList = `transition-all duration-300 block h-full bg-white w-[${playerscore}%]`;
@@ -48,12 +52,6 @@ window.updateBoardEvent.subscribe("update-player&enemy-board", () => {
             element.className = "transition-color text-white";
         }
     });
-    window.player.playerBoardArray = _playerBoardArray;
-    // Enemy
-    enemyBoardElement.innerHTML = "";
-    renderEnemyBoard(enemyBoardElement, _enemyBoardArray);
-    // Calculate Enemy score
-    
     const enemyscore = window?.enemy?.score?.amount || 0;
     const enemyChilds = window?.enemy?.score?.count || 0;
     enemyScoreElement.children[0].classList = `transition-all duration-300 block h-full bg-white w-[${enemyscore}%]`;
@@ -62,9 +60,15 @@ window.updateBoardEvent.subscribe("update-player&enemy-board", () => {
             element.className = "transition-color text-white";
         }
     });
-    window.enemy.enemyBoardArray = _enemyBoardArray;
-
-    renderCounter(counterElement);
+    // Player
+    playerBoardElement.innerHTML = "";
+    renderPlayerBoard(playerBoardElement, _playerBoardArray);
+    // Enemy
+    enemyBoardElement.innerHTML = "";
+    renderEnemyBoard(enemyBoardElement, _enemyBoardArray);
+    if(window.settings.complexity === "complex") {
+        renderCounter(counterElement);
+    }
 });
 
-window.startGameEvent.trigger();
+// window.startGameEvent.trigger();

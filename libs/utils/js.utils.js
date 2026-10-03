@@ -2,7 +2,7 @@
 
 import { CalculateScore } from "../utils.js";
 
-function UpdateScore() {
+export function UpdateScore() {
     // player Score
     const _playerBoardArray = window.player.playerBoardArray;
     const playerScore = CalculateScore(_playerBoardArray);
@@ -19,17 +19,17 @@ function UpdateScore() {
         window.game.winner = null;
         window.game.isGameDraw = true;
         window.game.isGameOver = true;
-        alert("Game is draw");
+        console.log("Game is draw");
     } else if (playerScore >= 100) {
         window.game.winner = "player";
         window.game.isGameOver = true;
         window.game.isGameDraw = false;
-        alert("Player won");
+        console.log("Player won");
     } else if (enemyScore >= 100) {
         window.game.winner = "enemy";
         window.game.isGameOver = true;
         window.game.isGameDraw = false;
-        alert("Enemy won");
+        console.log("Enemy won");
     }
 }
 
@@ -54,9 +54,8 @@ export function HandleClick(event) {
     const value = Number(event.currentTarget.dataset.value);
     UpdateHighlightedOf(value, true);
     // check if player or enemy win !
-    UpdateScore();
     if(playWith === "bot" && window.player.score.amount < 100) {
-        setTimeout(HandleEnemySelection, 2000);
+        setTimeout(HandleEnemySelection, 1500);
     }
     window.updateBoardEvent.trigger();
 }
@@ -74,6 +73,5 @@ export function HandleEnemySelection(event) {
         value = Number(event.currentTarget.dataset.value);
     }
     UpdateHighlightedOf(value);
-    UpdateScore();
     window.updateBoardEvent.trigger();
 }

@@ -3,8 +3,8 @@ export const defaultSettings = {
         audio: {
             sfx: true
         },
-        complexity: "complex", // complex
-        playWith: "player"
+        complexity: "easy", // easy | complex
+        playWith: "bot" //bot | player
     },
     player: {
         playerBoardArray: [],

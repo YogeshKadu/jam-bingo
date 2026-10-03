@@ -13,8 +13,33 @@
     </style> -->
 </head>
 <body>
-    <!-- <section class="main-menu"></section> -->
-    <section class="game bg-neutral-800 w-full box-border">
+    <section id="main-menu" class="bg-neutral-800 relative">
+        <div class="h-svh flex justify-center items-center">
+            <div>
+                <h1 class="text-white text-7xl font-black"><span class="text-neutral-700 duration-1000 text-8xl">#</span>SpinGo</h1>
+                <p class="text-gray-200 text-xl text-center mt-32 uppercase">Select your game</p>
+                <div class="mx-auto mt-5 flex gap-3 text-white justify-center">
+                    <button id="easy-game" class="flex-1 flex gap-2 items-center p-3 rounded-md cursor-pointer active:[&_span]:scale-95 hover:bg-neutral-700">
+                        <span class="block w-6 h-6 rounded-full border-white bg-white"></span>
+                        <p class="uppercase">Easy</p>
+                    </button>
+                    <button id="complex-game" class="flex-1 flex gap-2 items-center p-3 rounded-md cursor-pointer active:[&_span]:scale-95 hover:bg-neutral-700">
+                        <span class="block w-6 h-6 rounded-full border-2 border-white"></span>
+                        <p class="uppercase">Complex</p>
+                    </button>
+                </div>
+                <div class="w-full max-w-md mt-5 flex gap-3">
+                    <button id="play-bot" class="bg-neutral-700 text-white flex-1 py-3 rounded-md cursor-pointer transition-transform active:scale-95 ease-in-out font-semibold font-mono relative">
+                        BOT
+                    </button>
+                    <button id="play-enemy" class="bg-neutral-700 text-white flex-1 py-3 rounded-md cursor-pointer transition-transform active:scale-95 ease-in-out font-semibold font-mono relative">
+                        LOCAL 2P
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="game-board" class="hidden bg-neutral-800 w-full box-border">
         <div class="flex flex-wrap relative">
             <div id="counter-banner" class="absolute top w-full p-5">
                 <h3 class="text-center font-lg text-white uppercase text-xl font-semibold mb-2">The Board will rotate in</h3>
@@ -96,7 +121,7 @@
                         <button class="rounded-md #bg-cyan-400 bg-pink-400 aspect-square border-b-4 border-pink-800"></button>
                     </div>
                     <div class="text-center mt-8">
-                        <h2 class="font-black text-2xl text-white">BOT</h2>
+                        <h2 id="playerName" class="font-black text-2xl text-white uppercase">BOT</h2>
                     </div>
                 </div>
             </div>
@@ -106,7 +131,7 @@
         <div class="text-white px-5">
             <div class="flex flex-col">
                 <p>1. Play as regular bingo game, for more info <a class="text-blue-400" target="_blank" href="https://www.wikihow.com/Play-Bingo">click here</a>.</p>
-                <p>2. If you are playing in complex mode</p>
+                <p>2. If playing in complex mode 😈</p>
                 <p class="pl-5">- Both board will rotate 1 tile clockwise <b>after every 6 moves !</b></p>
                 <img src="./assets/help/guide1.png" alt="guide image" class="max-w-md pl-5 mt-3">
             </div>

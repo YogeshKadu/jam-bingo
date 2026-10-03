@@ -1,6 +1,6 @@
 // utility functions.
 
-export function GetRandomBoard(length, disabled) {
+export function GetRandomBoard(length, disabled=false) {
   const numbers = Array.from({ length }, (_, i) => i + 1);
 
   for (let i = numbers.length - 1; i > 0; i--) {
